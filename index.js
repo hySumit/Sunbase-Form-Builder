@@ -54,6 +54,33 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       element.appendChild(labelElem);
       element.appendChild(selectElem);
+      
+      const optionInput = document.createElement("input");
+      optionInput.placeholder = "Add Option";
+      element.appendChild(optionInput);
+
+      const addOptionBtn = document.createElement("button");
+      addOptionBtn.textContent = "Add Option";
+      addOptionBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const newOption = optionInput.value.trim();
+        if (newOption) {
+          selectElem.add(new Option(newOption));
+          optionInput.value = "";
+        }
+      });
+      element.appendChild(addOptionBtn);
+
+      const removeOptionBtn = document.createElement("button");
+      removeOptionBtn.textContent = "Remove Selected Option";
+      removeOptionBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const selectedOption = selectElem.selectedIndex;
+        if (selectedOption !== -1) {
+          selectElem.remove(selectedOption);
+        }
+      });
+      element.appendChild(removeOptionBtn);
     } else if (type === "textarea") {
       const labelElem = document.createElement("label");
       const textareaElem = document.createElement("textarea");
@@ -120,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.dataTransfer.effectAllowed = "move";
       setTimeout(() => {
         if (draggedElement) {
-          draggedElement.classList.add("hidden"); 
+          draggedElement.classList.add("hidden");
         }
       }, 0);
     });
@@ -128,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     element.addEventListener("dragend", () => {
       setTimeout(() => {
         if (draggedElement) {
-          draggedElement.classList.remove("hidden"); 
+          draggedElement.classList.remove("hidden");
           draggedElement = null;
         }
       }, 0);
@@ -149,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   document.querySelectorAll(".form-element").forEach(addDragAndDropEvents);
 
   const saveBtn = document.getElementById("save");
@@ -157,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const elements = Array.from(formCanvas.children);
     const formData = elements.map((element) => {
       const label = element.querySelector("label")?.textContent || "";
-      const input = element.querySelector("input");
+      const input = element.querySelector("input[type='text']");
       const select = element.querySelector("select");
       const textarea = element.querySelector("textarea");
 
@@ -175,4 +201,3 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(JSON.stringify(formData, null, 2));
   });
 });
-

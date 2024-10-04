@@ -137,6 +137,7 @@ input, textarea , select{
 }
 
 .form-element button {
+  margin: 5px;
   margin-top: 10px;
   padding: 6px 12px;
   background-color: #fda2a2;
